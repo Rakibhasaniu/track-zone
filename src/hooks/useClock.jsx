@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { addMinutes } from 'date-fns';
+// import LocalClock from 'src\components\localclock\index';
 const init = {
     id: '',
     title: '',
@@ -7,33 +8,50 @@ const init = {
         type: '',
         offset: '',
     },
-    date_utc0: null,
+    date_utc: null,
     date: null,
 }
 
 const TIMEZONE_OFFSET = {
-    PST: 7,
-    EST: 4,
+    PST: -7 * 60,
+    EST: - 4 * 60,
 }
-const useClock = (date, timezone, offset = 0, label) => {
+const useClock = (timezone, offset = 0,) => {
     const [state, setState] = useState({ ...init })
+    const [utc, setUtc] = useState(null)
+    useEffect(() => {
+        let d = new Date()
+        const local_offset = d.getTimezoneOffset();
+        d = addMinutes(d, local_offset)
+        setUtc(d);
+    }, [])
 
     useEffect(() => {
-        let utc = new Date(date)
-        if (timezone) {
+
+        if (utc !== null && timezone) {
             if (timezone === 'PST' || timezone === 'EST') {
                 offset = TIMEZONE_OFFSET[timezone]
             }
+            const newUtc = addMinutes(utc, offset);
+            setState({
+                ...state,
+                date_utc: utc,
+                date: newUtc,
+            })
+
+        } else {
+            setState({
+                ...state,
+                date_utc: utc,
+                date: utc,
+            })
         }
-        else {
-            offset = utc.getTimezoneOffset();
-        }
-        utc = addMinutes(utc, offset);
+
+        // console.log(label, utc.toLocaleString());
 
 
-        console.log(label, utc.toLocaleString());
 
-    }, [])
+    }, [utc])
 
     return ({
 
