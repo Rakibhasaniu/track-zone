@@ -1,9 +1,16 @@
-import './App.css'
+import ClockList from "./components/clocklist"
+import LocalClock from "./components/localclock"
+import useClock from "./hooks/useClock"
+
+
 
 function App() {
-
+  useClock(new Date)
   return (
-    <h1>Track-Zone</h1>
+    <div>
+      <LocalClock />
+      <ClockList />
+    </div>
   )
 }
 
