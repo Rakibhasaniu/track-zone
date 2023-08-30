@@ -19,50 +19,50 @@ const TIMEZONE_OFFSET = {
     BST: 1 * 60,
     MST: -6 * 60,
 }
-// const useClock = (timezone, offset = 0,) => {
-//     const [state, setState] = useState({ ...init })
-//     const [utc, setUtc] = useState(null)
-//     useEffect(() => {
-//         let d = new Date()
-//         const local_offset = d.getTimezoneOffset();
-//         d = addMinutes(d, local_offset)
-//         setUtc(d);
-//     }, [])
+const useClock = (timezone, offset = 0,) => {
+    const [state, setState] = useState({ ...init })
+    const [utc, setUtc] = useState(null)
+    useEffect(() => {
+        let d = new Date()
+        const local_offset = d.getTimezoneOffset();
+        d = addMinutes(d, local_offset)
+        setUtc(d);
+    }, [])
 
-useEffect(() => {
+    useEffect(() => {
 
-    if (utc !== null && timezone) {
-        offset = TIMEZONE_OFFSET[timezone] ?? offset;
-        // if (timezone === 'PST' || timezone === 'EST') {
+        if (utc !== null && timezone) {
+            offset = TIMEZONE_OFFSET[timezone] ?? offset;
+            // if (timezone === 'PST' || timezone === 'EST') {
 
-        //     offset = TIMEZONE_OFFSET[timezone]
-        // }
-        const newUtc = addMinutes(utc, offset);
-        setState({
-            ...state,
-            date_utc: utc,
-            date: newUtc,
-        })
+            //     offset = TIMEZONE_OFFSET[timezone]
+            // }
+            const newUtc = addMinutes(utc, offset);
+            setState({
+                ...state,
+                date_utc: utc,
+                date: newUtc,
+            })
 
-    } else {
-        setState({
-            ...state,
-            date_utc: utc,
-            date: utc,
-        })
+        } else {
+            setState({
+                ...state,
+                date_utc: utc,
+                date: utc,
+            })
+        }
+
+        // console.log(label, utc.toLocaleString());
+
+
+
+    }, [utc])
+
+    return ({
+
+        clock: state,
     }
-
-    // console.log(label, utc.toLocaleString());
-
-
-
-}, [utc])
-
-return ({
-
-    clock: state,
-}
-);
+    );
 };
 
 export default useClock;
