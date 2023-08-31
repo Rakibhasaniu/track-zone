@@ -1,10 +1,7 @@
-
+import React from 'react';
 
 const LocalClock = () => {
-    return (
-        <div>
-            <h1>I am Local clock</h1>
-        </div>
-    );
+    return <div>LocalClock Component</div>;
 };
+
 export default LocalClock;

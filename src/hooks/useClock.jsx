@@ -1,6 +1,74 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+// import { addMinutes } from 'date-fns';
+// // import LocalClock from 'src\components\localclock\index';
+// const init = {
+//     id: '',
+//     title: '',
+//     timezone: {
+//         type: '',
+//         offset: '',
+//     },
+//     date_utc: null,
+//     date: null,
+// }
+
+// const TIMEZONE_OFFSET = {
+//     PST: -7 * 60,
+//     EST: - 4 * 60,
+//     EDT: -4 * 60,
+//     BST: 1 * 60,
+//     MST: -6 * 60,
+// }
+// const useClock = (timezone, offset = 0,) => {
+//     const [state, setState] = useState({ ...init })
+//     const [utc, setUtc] = useState(null)
+//     useEffect(() => {
+//         let d = new Date()
+//         const local_offset = d.getTimezoneOffset();
+//         d = addMinutes(d, local_offset)
+//         setUtc(d);
+//     }, [])
+
+//     useEffect(() => {
+
+//         if (utc !== null && timezone) {
+//             offset = TIMEZONE_OFFSET[timezone] ?? offset;
+//             // if (timezone === 'PST' || timezone === 'EST') {
+
+//             //     offset = TIMEZONE_OFFSET[timezone]
+//             // }
+//             const newUtc = addMinutes(utc, offset);
+//             setState({
+//                 ...state,
+//                 date_utc: utc,
+//                 date: newUtc,
+//             })
+
+//         } else {
+//             setState({
+//                 ...state,
+//                 date_utc: utc,
+//                 date: utc,
+//             })
+//         }
+
+//         // console.log(label, utc.toLocaleString());
+
+
+
+//     }, [utc])
+
+//     return ({
+
+//         clock: state,
+//     }
+//     );
+// };
+
+// export default useClock;
 import { addMinutes } from 'date-fns';
-// import LocalClock from 'src\components\localclock\index';
+import { useEffect, useState } from 'react';
+
 const init = {
     id: '',
     title: '',
@@ -10,59 +78,48 @@ const init = {
     },
     date_utc: null,
     date: null,
-}
+};
 
 const TIMEZONE_OFFSET = {
     PST: -7 * 60,
-    EST: - 4 * 60,
+    EST: -4 * 60,
     EDT: -4 * 60,
     BST: 1 * 60,
     MST: -6 * 60,
-}
-const useClock = (timezone, offset = 0,) => {
-    const [state, setState] = useState({ ...init })
-    const [utc, setUtc] = useState(null)
+};
+
+const useClock = (timezone, offset = 0) => {
+    const [state, setState] = useState({ ...init });
+    const [utc, setUtc] = useState(null);
+
     useEffect(() => {
-        let d = new Date()
-        const local_offset = d.getTimezoneOffset();
-        d = addMinutes(d, local_offset)
+        let d = new Date();
+        const localOffset = d.getTimezoneOffset();
+        d = addMinutes(d, localOffset);
         setUtc(d);
-    }, [])
+    }, []);
 
     useEffect(() => {
-
         if (utc !== null && timezone) {
             offset = TIMEZONE_OFFSET[timezone] ?? offset;
-            // if (timezone === 'PST' || timezone === 'EST') {
-
-            //     offset = TIMEZONE_OFFSET[timezone]
-            // }
             const newUtc = addMinutes(utc, offset);
             setState({
                 ...state,
                 date_utc: utc,
                 date: newUtc,
-            })
-
+            });
         } else {
             setState({
                 ...state,
                 date_utc: utc,
                 date: utc,
-            })
+            });
         }
+    }, [utc]);
 
-        // console.log(label, utc.toLocaleString());
-
-
-
-    }, [utc])
-
-    return ({
-
+    return {
         clock: state,
-    }
-    );
+    };
 };
 
 export default useClock;
