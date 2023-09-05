@@ -29,11 +29,13 @@ import useClock from "./hooks/useClock"
 // import useClock from './hooks/useClock';
 
 const App = () => {
-  const { date: localDate } = useClock()
+  const { date: localDate, localOffset, localTimezone } = useClock()
   console.log(localDate);
   return (
     <div>
-      <LocalClock date={localDate} />
+      {localDate !== null && (
+        <LocalClock date={localDate} timezone={localOffset} offset={localTimezone} />
+      )}
       <ClockList />
     </div>
   );

@@ -15,6 +15,7 @@ const TIMEZONE_OFFSET = {
 const useClock = (timezone, offset = 0) => {
     const [localDate, setLocalDate] = useState(null);
     const [localOffset, setLocalOffset] = useState(0);
+    const [localTimezone, setLocalTimezone] = useState('');
     const [utc, setUtc] = useState(null);
 
     useEffect(() => {
@@ -33,9 +34,11 @@ const useClock = (timezone, offset = 0) => {
                 const newUtc = addMinutes(utc, offset);
                 setLocalDate(newUtc);
             } else {
-                const newUtc = addMinutes(utc, localOffset);
-
+                const newUtc = addMinutes(utc, -localOffset);
+                // console.log(newUtc);
+                const dateStr = newUtc.toUTCString().split(' ')
                 setLocalDate(newUtc)
+                setLocalTimezone(dateStr.pop());
             }
         }
     }, [utc]);
@@ -46,6 +49,7 @@ const useClock = (timezone, offset = 0) => {
         offset,
         timezone,
         localOffset,
+        localTimezone
 
     };
 };
